@@ -57,13 +57,17 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/buffsdk/src/androidTest/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/buffsdk/src/androidTest/java" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="com.buffup.sdk.models.stream" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\AlexPC\Desktop\AndroidTechTest-master\SportBuff\buffsdk\src\androidTest\java" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.Buff App-app">
@@ -257,6 +261,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1601312922452" />
+    <state x="584" y="190" key="chooseDestDirectoryDialog" timestamp="1601314402873">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="584" y="190" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1601314402873" />
     <state x="950" y="465" key="com.intellij.ide.util.TipDialog" timestamp="1600690542332">
       <screen x="0" y="23" width="2560" height="1338" />
     </state>
