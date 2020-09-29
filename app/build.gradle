@@ -5,7 +5,6 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
-
     defaultConfig {
         applicationId "com.buffup.app"
         minSdkVersion 21
@@ -17,9 +16,18 @@ android {
     }
 
     buildTypes {
+        def stringType = "String"
+        def baseUrl = "BASE_URL"
+
+        debug {
+            versionNameSuffix "-dev"
+            buildConfigField(stringType, baseUrl, '"http://demo2373134.mockable.io/"')
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField(stringType, baseUrl, '"http://demo2373134.mockable.io/"')
         }
     }
 
