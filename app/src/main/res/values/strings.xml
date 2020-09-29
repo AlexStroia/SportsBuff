@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Buff App</string>
+
+    <string name="retry">Retry</string>
+    <string name="no_internet_error">No internet connection</string>
+    <string name="unknown_error">Ooops! Something went wrong</string>
+    <string name="no_internet_error_desc">Please make sure you are connected to the internet</string>
+    <string name="unknown_error_title">An error occurred.</string>
+    <string name="unknown_error_desc">We\'re doing everything we can to fix the problem. Please try again later.</string>
 </resources>

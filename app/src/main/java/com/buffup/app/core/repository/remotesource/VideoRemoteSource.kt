@@ -4,5 +4,5 @@ import com.buffup.app.core.api.ApiService
 
 internal class VideoRemoteSource internal constructor(private val apiService: ApiService) {
 
-    internal suspend fun getVideos(id: Int) = apiService.getVideos(id)
+    internal suspend fun fetchVideos(id: Int) = apiService.getVideos(id)
 }
