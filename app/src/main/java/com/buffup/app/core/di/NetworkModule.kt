@@ -1,6 +1,8 @@
 package com.buffup.app.core.di
 
 import com.buffup.app.BuildConfig
+import com.buffup.app.core.api.ApiService
+import com.buffup.app.core.api.response.VideoResponse
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,7 +18,9 @@ internal fun createNetworkModule(baseUrl: String) = module {
 
     single(appUsageOkHttp) {
         val builder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) builder.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        if (BuildConfig.DEBUG) builder.addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
         builder.build()
     }
 
@@ -27,6 +31,9 @@ internal fun createNetworkModule(baseUrl: String) = module {
             .addConverterFactory(MoshiConverterFactory.create(get()))
             .build()
     }
+
+    factory { get<Retrofit>(appUsageRetrofit).create(ApiService::class.java) }
+
 }
 
 private val appUsageOkHttp get() = StringQualifier("appUsageOkHttp")
