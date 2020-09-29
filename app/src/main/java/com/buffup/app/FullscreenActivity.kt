@@ -11,9 +11,9 @@ class FullscreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        video.setVideoPath("https://buffup-public.s3.eu-west-2.amazonaws.com/video/toronto+nba+cut+3.mp4");
-        video.setOnPreparedListener {
-            video.start()
-        }
+//        video.setVideoPath("https://buffup-public.s3.eu-west-2.amazonaws.com/video/toronto+nba+cut+3.mp4");
+//        video.setOnPreparedListener {
+//            video.start()
+//        }
     }
 }

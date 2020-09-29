@@ -7,6 +7,18 @@ buildscript {
         jcenter()
         
     }
+
+    ext {
+        coroutinesVersion = '1.3.2'
+        navigationVersion = '2.3.0'
+        lifecycleVersion = '2.2.0'
+        koinVersion = '2.0.1'
+        retrofitVersion = '2.7.1'
+        moshiVersion = '1.9.2'
+        insetterVersion = '0.2.0'
+        pagingExtensionVersion = '0.1.0.15'
+    }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
