@@ -11,6 +11,7 @@ import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 internal fun createNetworkModule(baseUrl: String) = module {
     single {
@@ -22,6 +23,8 @@ internal fun createNetworkModule(baseUrl: String) = module {
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(OkHttpClient.Builder().also {
+                it.connectTimeout(60L, TimeUnit.SECONDS)
+                it.readTimeout(60L, TimeUnit.SECONDS)
                 it.addInterceptor(HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
