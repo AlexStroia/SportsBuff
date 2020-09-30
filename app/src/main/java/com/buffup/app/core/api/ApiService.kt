@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 internal interface ApiService {
-    @GET("/buffs/{buffId}")
+    @GET("buffs/{buffId}")
     suspend fun getVideos(@Path("buffId") id: Int): VideoResponse
 }

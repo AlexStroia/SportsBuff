@@ -6,7 +6,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.buffup.sdk.adapter.BuffAdapter
 import com.buffup.sdk.adapter.OnAnswerSelected
 import com.buffup.sdk.adapter.OnCloseSelected
@@ -14,17 +19,31 @@ import com.buffup.sdk.model.BuffUiModel
 
 class BuffView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : ConstraintLayout(context, attrs, defStyleAttr), LifecycleObserver {
 
-    init {
-        val adapter = BuffAdapter(object : OnAnswerSelected {
+    private var binding: BuffViewBinding = BuffViewBinding.inflate(LayoutInflater.from(context))
+
+    private val _content = MutableLiveData<BuffUiModel>()
+
+    private val adapter by lazy {
+        BuffAdapter(object : OnAnswerSelected {
             override fun invoke(uiModel: BuffUiModel) {
-                TODO("Not yet implemented")
             }
         }, object : OnCloseSelected {
             override fun invoke() {
-                TODO("Not yet implemented")
             }
         })
+    }
+
+    init {
+        addView(binding.root)
+        binding.plm.text = "Aloha"
+        with(binding) {
+            rvQuestions.adapter = adapter
+        }
+    }
+
+    fun setData(uiModel: BuffUiModel) {
+        adapter.submitList(listOf(uiModel))
     }
 }

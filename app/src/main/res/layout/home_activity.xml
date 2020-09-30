@@ -9,8 +9,8 @@
         android:background="@android:color/black"
         tools:context=".HomeActivity">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/host"
+        <fragment
+            android:id="@+id/fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
