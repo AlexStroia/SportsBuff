@@ -1,7 +1,6 @@
 package com.buffup.sdk.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -13,8 +12,12 @@ import com.buffup.sdk.shared.DataBoundListAdapter
 import java.lang.IllegalArgumentException
 
 typealias OnAnswerSelected = (uiModel: BuffUiModel) -> Unit
+typealias onCloseSelected = () -> Unit
 
-class BuffAdapter(onAnswerSelected: OnAnswerSelected) : DataBoundListAdapter<BuffUiModel, ViewDataBinding>(DiffCallback()) {
+class BuffAdapter(
+    private val onAnswerSelected: OnAnswerSelected,
+    private val onCloseSelected: onCloseSelected
+) : DataBoundListAdapter<BuffUiModel, ViewDataBinding>(DiffCallback()) {
     private class DiffCallback : DiffUtil.ItemCallback<BuffUiModel>() {
         override fun areItemsTheSame(oldItem: BuffUiModel, newItem: BuffUiModel): Boolean = when {
             oldItem is BuffUiModel.Answer && newItem is BuffUiModel.Answer -> oldItem.text == newItem.text
@@ -52,10 +55,28 @@ class BuffAdapter(onAnswerSelected: OnAnswerSelected) : DataBoundListAdapter<Buf
             else -> throw IllegalArgumentException("Invalid binding creation")
         }
 
-    override fun bind(binding: ViewDataBinding, item: BuffUiModel, position: Int) = when (item) {
-        is BuffUiModel.Author -> (binding as? BuffSenderUiBinding)?.uiModel = item
-        is BuffUiModel.Question -> (binding as? BuffQuestionUiBinding)?.uiModel = item
-        is BuffUiModel.Answer -> (binding as? BuffAnswerUiBinding)?.uiModel = item
+    override fun bind(binding: ViewDataBinding, item: BuffUiModel, position: Int) {
+        when (item) {
+            is BuffUiModel.Author -> (binding as? BuffSenderUiBinding)?.let {
+                with(it) {
+                    uiModel = item
+                    root.setOnClickListener { onAnswerSelected(item) }
+                    buffClose.setOnClickListener { onCloseSelected() }
+                }
+            }
+            is BuffUiModel.Question -> (binding as? BuffQuestionUiBinding)?.let {
+                with(it) {
+                    uiModel = item
+                    root.setOnClickListener { onAnswerSelected(item) }
+                }
+            }
+            is BuffUiModel.Answer -> (binding as? BuffAnswerUiBinding)?.let {
+                with(it) {
+                    uiModel = item
+                    root.setOnClickListener { onAnswerSelected(item) }
+                }
+            }
+        }
     }
 
     companion object {
