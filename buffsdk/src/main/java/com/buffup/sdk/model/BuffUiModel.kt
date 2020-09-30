@@ -1,7 +1,7 @@
 package com.buffup.sdk.model
 
 sealed class BuffUiModel {
-    data class Question(val text: String)
-    data class Answer(val text: String)
-    data class Author(val name: String)
+    data class Question(val id: Int,val text: String): BuffUiModel()
+    data class Answer(val id: Int,val text: String): BuffUiModel()
+    data class Author(val id: Int,val name: String): BuffUiModel()
 }

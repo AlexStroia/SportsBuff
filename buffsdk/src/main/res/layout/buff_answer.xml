@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data class=".BuffAnswerUiBinding">
+        <variable
+            name="uiModel"
+            type="com.buffup.sdk.model.BuffUiModel.Answer" />
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,3 +30,4 @@
         android:textColor="@color/test_color_dark"
         android:textStyle="bold" />
 </LinearLayout>
+</layout>
