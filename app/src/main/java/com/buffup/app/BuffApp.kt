@@ -2,13 +2,12 @@ package com.buffup.app
 
 import android.app.Application
 import com.buffup.app.core.di.createCoreModules
+import com.buffup.app.feature.di.createFeatureModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
-import org.koin.core.module.Module
 
 @ExperimentalCoroutinesApi
 class BuffApp : Application() {
@@ -18,11 +17,14 @@ class BuffApp : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@BuffApp)
-            modules(loadCoreModules())
+            modules(loadAllModules())
         }
     }
 
-    fun loadCoreModules(): List<Module> = createCoreModules(BuildConfig.BASE_URL).also {
-        loadKoinModules(it)
-    }
+
+    private fun loadAllModules() = loadCoreModules() + loadFeatureModules()
+
+    private fun loadCoreModules() = createCoreModules(BuildConfig.BASE_URL)
+
+    private fun loadFeatureModules() = createFeatureModule()
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.buffup.app.feature.VideoFragment">
+    tools:context="com.buffup.app.feature.video.VideoFragment">
 
     <data class=".VideoFragmentBinding">
 
         <variable
             name="viewModel"
-            type="com.buffup.app.feature.viewmodel.VideoFragmentViewModel" />
+            type="com.buffup.app.feature.video.viewmodel.VideoFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

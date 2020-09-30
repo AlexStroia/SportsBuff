@@ -31,7 +31,7 @@ abstract class SportsBuffFragment<VB : ViewDataBinding, VM : ViewModel>(@LayoutR
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         DataBindingUtil.inflate<VB>(inflater, layoutResourceId, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
-            it.setVariable(BR.viewModel, viewModel)
+         //   it.setVariable(BR.viewModel, viewModel)
             binding = it
         }.root
 
