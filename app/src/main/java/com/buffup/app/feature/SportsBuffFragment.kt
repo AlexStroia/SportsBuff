@@ -3,6 +3,7 @@ package com.buffup.app.feature
 import com.buffup.app.R
 import com.buffup.app.core.SportsBuffError
 import com.buffup.app.shared.autoCleared
+import com.buffup.app.BR
 
 
 import android.os.Bundle
@@ -22,16 +23,21 @@ import com.google.android.material.snackbar.Snackbar
 
 typealias OnSnackbarDismissed = (dismissEvent: Int) -> Unit
 
-abstract class SportsBuffFragment<VB : ViewDataBinding, VM : ViewModel>(@LayoutRes private val layoutResourceId: Int) : Fragment() {
+abstract class SportsBuffFragment<VB : ViewDataBinding, VM : ViewModel>(@LayoutRes private val layoutResourceId: Int) :
+    Fragment() {
 
     protected var binding by autoCleared<VB>()
     protected abstract val viewModel: VM?
 
     @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         DataBindingUtil.inflate<VB>(inflater, layoutResourceId, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
-         //   it.setVariable(BR.viewModel, viewModel)
+            it.setVariable(BR.viewModel, viewModel)
             binding = it
         }.root
 
@@ -52,12 +58,20 @@ abstract class SportsBuffFragment<VB : ViewDataBinding, VM : ViewModel>(@LayoutR
         showSnackBar(getString(textRes), duration, anchorView, dismissCallback)
     }
 
-    protected fun showSnackBar(text: String, duration: Int = Snackbar.LENGTH_LONG, anchorView: View? = null, dismissCallback: OnSnackbarDismissed? = null) {
+    protected fun showSnackBar(
+        text: String,
+        duration: Int = Snackbar.LENGTH_LONG,
+        anchorView: View? = null,
+        dismissCallback: OnSnackbarDismissed? = null
+    ) {
         Snackbar.make(binding.root, text, duration).apply {
             anchorView?.let { setAnchorView(it) }
             dismissCallback?.let {
                 addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, @DismissEvent event: Int) {
+                    override fun onDismissed(
+                        transientBottomBar: Snackbar?,
+                        @DismissEvent event: Int
+                    ) {
                         dismissCallback(event)
                     }
                 })
@@ -65,16 +79,30 @@ abstract class SportsBuffFragment<VB : ViewDataBinding, VM : ViewModel>(@LayoutR
         }.show()
     }
 
-    protected inline fun showSnackBar(text: String, @StringRes actionRes: Int = R.string.retry, anchorView: View? = null, crossinline action: () -> Unit) {
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).setAction(actionRes) { action() }.setAnchorView(anchorView).show()
+    protected inline fun showSnackBar(
+        text: String,
+        @StringRes actionRes: Int = R.string.retry,
+        anchorView: View? = null,
+        crossinline action: () -> Unit
+    ) {
+        Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).setAction(actionRes) { action() }
+            .setAnchorView(anchorView).show()
     }
 
-    protected fun handleError(error: SportsBuffError, anchorView: View? = null, action: (() -> Unit)? = null) {
+    protected fun handleError(
+        error: SportsBuffError,
+        anchorView: View? = null,
+        action: (() -> Unit)? = null
+    ) {
         val errorMessage = when (error) {
             is SportsBuffError.NoInternet -> getString(R.string.no_internet_error)
             is SportsBuffError.Unknown -> getString(R.string.unknown_error)
             is SportsBuffError.Api -> error.message
         }
-        if (action != null) showSnackBar(errorMessage, anchorView = anchorView, action = action) else showSnackBar(errorMessage, anchorView = anchorView)
+        if (action != null) showSnackBar(
+            errorMessage,
+            anchorView = anchorView,
+            action = action
+        ) else showSnackBar(errorMessage, anchorView = anchorView)
     }
 }
