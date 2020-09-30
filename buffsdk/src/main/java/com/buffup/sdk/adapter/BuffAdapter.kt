@@ -12,11 +12,11 @@ import com.buffup.sdk.shared.DataBoundListAdapter
 import java.lang.IllegalArgumentException
 
 typealias OnAnswerSelected = (uiModel: BuffUiModel) -> Unit
-typealias onCloseSelected = () -> Unit
+typealias OnCloseSelected = () -> Unit
 
 class BuffAdapter(
     private val onAnswerSelected: OnAnswerSelected,
-    private val onCloseSelected: onCloseSelected
+    private val onCloseSelected: OnCloseSelected
 ) : DataBoundListAdapter<BuffUiModel, ViewDataBinding>(DiffCallback()) {
     private class DiffCallback : DiffUtil.ItemCallback<BuffUiModel>() {
         override fun areItemsTheSame(oldItem: BuffUiModel, newItem: BuffUiModel): Boolean = when {

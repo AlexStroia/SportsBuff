@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.buffup.sdk.adapter.BuffAdapter
 import com.buffup.sdk.adapter.OnAnswerSelected
+import com.buffup.sdk.adapter.OnCloseSelected
 import com.buffup.sdk.model.BuffUiModel
 
 class BuffView @JvmOverloads constructor(
@@ -16,16 +17,14 @@ class BuffView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
-
-        val adapter = BuffAdapter(object: OnAnswerSelected {
+        val adapter = BuffAdapter(object : OnAnswerSelected {
             override fun invoke(uiModel: BuffUiModel) {
+                TODO("Not yet implemented")
+            }
+        }, object : OnCloseSelected {
+            override fun invoke() {
                 TODO("Not yet implemented")
             }
         })
     }
-
-
-
-
-
 }
