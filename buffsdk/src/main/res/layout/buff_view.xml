@@ -19,19 +19,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/plm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PLMMMMMMMMMMMMMMMM"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="50sp"
-            android:translationZ="2dp"
-            android:elevation="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/rv_questions"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

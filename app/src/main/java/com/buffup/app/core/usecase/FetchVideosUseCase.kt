@@ -14,8 +14,7 @@ class FetchVideosUseCase internal constructor(
 ) {
 
     suspend operator fun invoke(id: Int): Result<VideoResponse> = Result {
-        val result =  videoRepository.fetchVideos(id)
-        videoRepository.save(result)
+        val result = videoRepository.fetchVideos(id)
         result
     }
 }

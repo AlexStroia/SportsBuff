@@ -8,5 +8,7 @@ data class Author(
     @Json(name = "first_name")
     val firstName: String,
     @Json(name = "last_name")
-    val lastName: String
+    val lastName: String,
+    @Json(name = "image")
+    val image: String
 )

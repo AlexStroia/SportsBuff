@@ -22,7 +22,7 @@ class BuffAdapter(
         override fun areItemsTheSame(oldItem: BuffUiModel, newItem: BuffUiModel): Boolean = when {
             oldItem is BuffUiModel.Answer && newItem is BuffUiModel.Answer -> oldItem.text == newItem.text
             oldItem is BuffUiModel.Question && newItem is BuffUiModel.Question -> oldItem.id == newItem.id
-            oldItem is BuffUiModel.Author && newItem is BuffUiModel.Author -> oldItem.id == newItem.id
+            oldItem is BuffUiModel.Author && newItem is BuffUiModel.Author -> oldItem.firstName == newItem.firstName
             else -> false
         }
 
@@ -33,6 +33,12 @@ class BuffAdapter(
                 oldItem is BuffUiModel.Author && newItem is BuffUiModel.Author -> oldItem == newItem
                 else -> false
             }
+    }
+
+    override fun getItemViewType(position: Int): Int = when(getItem(position)) {
+        is BuffUiModel.Author -> ITEM_SENDER
+        is BuffUiModel.Question -> ITEM_QUESTION
+        is BuffUiModel.Answer -> ITEM_ANSWER
     }
 
     override fun createBinding(parent: ViewGroup, viewType: Int): ViewDataBinding =
@@ -80,9 +86,9 @@ class BuffAdapter(
     }
 
     companion object {
-        private const val ITEM_QUESTION = 3
-        private const val ITEM_ANSWER = 2
-        private const val ITEM_SENDER = 1
+        private const val ITEM_QUESTION = 2
+        private const val ITEM_ANSWER = 1
+        private const val ITEM_SENDER = 0
     }
 
 }

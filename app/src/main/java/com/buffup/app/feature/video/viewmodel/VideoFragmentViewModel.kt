@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.*
 import com.buffup.app.core.Result
 import com.buffup.app.core.SportsBuffError
+import com.buffup.app.core.api.response.VideoResponse
 import com.buffup.app.core.asError
 import com.buffup.app.core.repository.VideoRepository
 import com.buffup.app.core.usecase.FetchVideosUseCase
@@ -16,15 +17,14 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @FlowPreview
 class VideoFragmentViewModel(
-    private val videoRepository: VideoRepository,
     private val fetchVideosUseCase: FetchVideosUseCase
 ) : ViewModel() {
 
-    @ExperimentalCoroutinesApi
-    val questions = videoRepository.getVideo().asLiveData()
-
     private val _event = MutableLiveData<Event<Action>>()
     val event: LiveData<Event<Action>> get() = _event
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
 
     private lateinit var timer: CountDownTimer
 
@@ -36,7 +36,6 @@ class VideoFragmentViewModel(
         var currentId = 0
         timer = object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                //here you can have your logic to set text to edittext
             }
 
             override fun onFinish() {
@@ -56,20 +55,22 @@ class VideoFragmentViewModel(
     }
 
     private suspend fun handleFetchVideoUseCase(id: Int) {
-        _event.value = Event(Action.Loading(true))
+        _loading.value = true
         when (val result = fetchVideosUseCase(id)) {
-            is Result.Success -> _event.value = Event(Action.Loading(false))
+            is Result.Success -> {
+                _loading.value = false
+                _event.value = Event(Action.Success(result.value))
+            }
             is Result.Error -> {
-                _event.value = Event(Action.Loading(false))
+                _loading.value = false
                 _event.value = Event(Action.Error(result.exception.asError()))
             }
         }
-
     }
 
 
     sealed class Action {
         data class Error(val error: SportsBuffError) : Action()
-        data class Loading(val isLoading: Boolean) : Action()
+        data class Success(val response: VideoResponse) : Action()
     }
 }

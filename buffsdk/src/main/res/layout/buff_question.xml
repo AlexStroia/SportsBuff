@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
             android:padding="18dp"
+            android:text="@{uiModel.text}"
             android:textColor="@color/test_color_light"
             android:textStyle="bold"
             tools:text="Some question " />

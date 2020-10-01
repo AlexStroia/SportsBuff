@@ -23,8 +23,6 @@ class BuffView @JvmOverloads constructor(
 
     private var binding: BuffViewBinding = BuffViewBinding.inflate(LayoutInflater.from(context))
 
-    private val _content = MutableLiveData<BuffUiModel>()
-
     private val adapter by lazy {
         BuffAdapter(object : OnAnswerSelected {
             override fun invoke(uiModel: BuffUiModel) {
@@ -37,13 +35,12 @@ class BuffView @JvmOverloads constructor(
 
     init {
         addView(binding.root)
-        binding.plm.text = "Aloha"
         with(binding) {
             rvQuestions.adapter = adapter
         }
     }
 
-    fun setData(uiModel: BuffUiModel) {
-        adapter.submitList(listOf(uiModel))
+    fun setData(uiModel: List<BuffUiModel>) {
+        adapter.submitList(uiModel)
     }
 }
