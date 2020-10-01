@@ -11,6 +11,8 @@ data class Video(
     val clientId: Int,
     @Json(name="stream_id")
     val streamId: Int,
+    @Json(name="time_to_show")
+    val timeToShow: Int,
     @Json(name = "priority")
     val priority: Int,
     @Json(name ="created_at")

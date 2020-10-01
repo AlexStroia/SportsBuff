@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
@@ -18,7 +19,6 @@ import com.buffup.sdk.utils.setImage
 
 
 private const val ANIM_DURATION = 1000L
-private const val PROGRESS_BAR_MAX = 15
 
 class BuffView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -35,7 +35,7 @@ class BuffView @JvmOverloads constructor(
     private lateinit var timer: CountDownTimer
     private var currentProgressBarProgress = 0
 
-    private var isTimmerRunning = false
+    private var timeToShow = 0L
 
     private val adapter by lazy {
         BuffAdapter(object : OnAnswerSelected {
@@ -80,20 +80,23 @@ class BuffView @JvmOverloads constructor(
         handleLeftToRightAnimation()
     }
 
+    fun setTime(timeToShow: Long) {
+        this.timeToShow = timeToShow * 1000
+    }
+
     private fun setProgressBar() {
         timer = object : CountDownTimer(15000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val progress = PROGRESS_BAR_MAX - (millisUntilFinished / 1000)
+                print("TimeToShow is $timeToShow")
+                val progress = timeToShow - (millisUntilFinished / 1000)
                 with(binding.buffQuestion) {
                     val seconds: Long = millisUntilFinished / 1000
                     questionTime.text = (seconds).toString()
                     binding.buffQuestion.questionTimeProgress.progress = (progress.toInt())
-                    currentProgressBarProgress = millisUntilFinished.toInt()
                 }
             }
 
             override fun onFinish() {
-                isTimmerRunning = false
                 handleRightToLeftAnimation()
                 timer.cancel()
             }
@@ -117,12 +120,12 @@ class BuffView @JvmOverloads constructor(
                 }
 
             }).translationX(0f)
-                .setInterpolator(AccelerateInterpolator()).duration = ANIM_DURATION
+                .setInterpolator(AccelerateDecelerateInterpolator()).duration = ANIM_DURATION
         }
     }
 
     private fun handleRightToLeftAnimation() {
         binding.container.animate().translationX(-binding.container.width.toFloat())
-            .setInterpolator(AccelerateInterpolator()).duration = ANIM_DURATION
+            .setInterpolator(AccelerateDecelerateInterpolator()).duration = ANIM_DURATION
     }
 }

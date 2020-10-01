@@ -57,7 +57,10 @@ class VideoFragment :
                             buffs.addAll(answers)
                             buffs.add(question)
                             buffs.add(author)
-                            buffView.setData(buffs)
+                            buffView.apply {
+                                setTime(action.response.videos.timeToShow.toLong())
+                                setData(buffs)
+                            }
                         }
                     }
                 }

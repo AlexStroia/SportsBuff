@@ -6,13 +6,15 @@ import com.buffup.app.core.Result
 import com.buffup.app.core.SportsBuffError
 import com.buffup.app.core.api.response.VideoResponse
 import com.buffup.app.core.asError
-import com.buffup.app.core.repository.VideoRepository
 import com.buffup.app.core.usecase.FetchVideosUseCase
 import com.buffup.app.shared.Event
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
+
+private const val MILLISECONDS_REQUEST_DELAY_TIME = 30000L
+private const val MILLISECONDS_COUNTDOWN_INTERVAL = 1000L
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -30,24 +32,25 @@ class VideoFragmentViewModel(
 
     init {
         var currentId = 0
-        timer = object : CountDownTimer(30000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-            }
-
-            override fun onFinish() {
-                currentId++
-                viewModelScope.launch {
-                    handleFetchVideoUseCase(currentId)
+        timer =
+            object : CountDownTimer(MILLISECONDS_REQUEST_DELAY_TIME, MILLISECONDS_COUNTDOWN_INTERVAL) {
+                override fun onTick(millisUntilFinished: Long) {
                 }
 
-                if (currentId < 5) {
-                    timer.cancel()
-                    timer.start()
-                } else {
-                    timer.cancel()
+                override fun onFinish() {
+                    currentId++
+                    viewModelScope.launch {
+                        handleFetchVideoUseCase(currentId)
+                    }
+
+                    if (currentId < 5) {
+                        timer.cancel()
+                        timer.start()
+                    } else {
+                        timer.cancel()
+                    }
                 }
-            }
-        }.start()
+            }.start()
     }
 
     private suspend fun handleFetchVideoUseCase(id: Int) {
