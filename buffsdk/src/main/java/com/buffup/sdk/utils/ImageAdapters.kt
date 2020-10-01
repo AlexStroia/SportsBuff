@@ -5,6 +5,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
 @BindingAdapter("setImage")
-fun ImageView.setImage(url: String) {
-    Glide.with(this).load(url).into(this)
+fun ImageView.setImage(url: String?) {
+    if (!url.isNullOrEmpty()) {
+        Glide.with(this).load(url).into(this)
+    }
 }

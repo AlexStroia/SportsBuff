@@ -29,10 +29,6 @@ class VideoFragmentViewModel(
     private lateinit var timer: CountDownTimer
 
     init {
-        viewModelScope.launch {
-            handleFetchVideoUseCase(1)
-        }
-
         var currentId = 0
         timer = object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {

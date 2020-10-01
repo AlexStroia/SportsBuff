@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="buff_margin_left">32dp</dimen>
+    <dimen name="sender_image_height_width">27dp</dimen>
+    <dimen name="first_keyline">16dp</dimen>
 </resources>
