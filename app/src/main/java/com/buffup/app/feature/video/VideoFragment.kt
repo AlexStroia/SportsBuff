@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.buffup.app.R
-import com.buffup.app.core.SportsBuffError
 import com.buffup.app.databinding.VideoFragmentBinding
 import com.buffup.app.feature.SportsBuffFragment
 import com.buffup.app.feature.video.viewmodel.VideoFragmentViewModel
-import com.buffup.app.shared.Event
 import com.buffup.sdk.model.BuffUiModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -20,7 +18,6 @@ class VideoFragment :
     SportsBuffFragment<VideoFragmentBinding, VideoFragmentViewModel>(R.layout.video_fragment) {
     @FlowPreview
     override val viewModel by viewModel<VideoFragmentViewModel>()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,13 +52,9 @@ class VideoFragment :
                                 action.response.videos.author.lastName,
                                 action.response.videos.author.image
                             )
-                            val buffs = arrayListOf<BuffUiModel>()
-                            buffs.addAll(answers)
-                            buffs.add(question)
-                            buffs.add(author)
                             buffView.apply {
                                 setTime(action.response.videos.timeToShow.toLong())
-                                setData(buffs)
+                                setData(answers, question, author)
                             }
                         }
                     }

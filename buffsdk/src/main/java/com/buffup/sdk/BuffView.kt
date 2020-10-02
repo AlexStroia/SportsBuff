@@ -93,10 +93,7 @@ class BuffView @JvmOverloads constructor(
         }
     }
 
-    fun setData(uiModel: List<BuffUiModel>) {
-        val answers = uiModel.filterIsInstance(BuffUiModel.Answer::class.java)
-        val author = uiModel.filterIsInstance(BuffUiModel.Author::class.java).first()
-        val question = uiModel.filterIsInstance(BuffUiModel.Question::class.java).first()
+    fun setData(answers: List<BuffUiModel.Answer>, question: BuffUiModel.Question, author: BuffUiModel.Author) {
         _author.value = author
         _question.value = question
         _answers.value = answers
