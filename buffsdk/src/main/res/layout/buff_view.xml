@@ -57,6 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guide_end"
             tools:layout="@layout/buff_sender"
+            android:layout_marginBottom="@dimen/first_keyline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guide_start" />
 
