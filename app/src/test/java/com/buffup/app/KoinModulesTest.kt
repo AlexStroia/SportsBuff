@@ -11,7 +11,7 @@ import org.koin.test.KoinTest
 class KoinModulesTest: KoinTest {
 
     @Test
-    fun testFeatureModule() {
+    fun testModules() {
         startKoin { modules(createCoreModules(BuildConfig.BASE_URL) + createFeatureModule()) }
     }
 }
