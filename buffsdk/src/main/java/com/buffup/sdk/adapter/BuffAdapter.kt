@@ -7,12 +7,10 @@ import com.buffup.sdk.BuffAnswerUiBinding
 import com.buffup.sdk.model.BuffUiModel
 import com.buffup.sdk.shared.DataBoundListAdapter
 
-typealias OnAnswerSelected = (uiModel: BuffUiModel) -> Unit
-typealias OnCloseSelected = () -> Unit
+typealias OnAnswerSelected = (uiModel: BuffUiModel.Answer) -> Unit
 
 class BuffAdapter(
     private val onAnswerSelected: OnAnswerSelected,
-    private val onCloseSelected: OnCloseSelected
 ) : DataBoundListAdapter<BuffUiModel.Answer, BuffAnswerUiBinding>(DiffCallback()) {
     private class DiffCallback : DiffUtil.ItemCallback<BuffUiModel.Answer>() {
         override fun areItemsTheSame(

@@ -3,23 +3,24 @@ package com.buffup.sdk
 import android.animation.Animator
 import android.content.Context
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.buffup.sdk.adapter.BuffAdapter
 import com.buffup.sdk.adapter.OnAnswerSelected
-import com.buffup.sdk.adapter.OnCloseSelected
 import com.buffup.sdk.model.BuffUiModel
+import com.buffup.sdk.utils.replace
 import com.buffup.sdk.utils.setImage
+import kotlinx.android.synthetic.main.buff_question.view.*
 
 
 private const val ANIM_DURATION = 1000L
-
+private const val ITEM_TAP_DELAY = 2000L
 class BuffView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
@@ -32,17 +33,32 @@ class BuffView @JvmOverloads constructor(
     private val _author = MutableLiveData<BuffUiModel.Author>()
     val author: LiveData<BuffUiModel.Author> get() = _author
 
+    private val _answers = MutableLiveData<List<BuffUiModel.Answer>>()
+    val answers: LiveData<List<BuffUiModel.Answer>> get() = _answers
+
     private lateinit var timer: CountDownTimer
-    private var currentProgressBarProgress = 0
 
     private var timeToShow = 0L
 
+    private var isLeftToRightAnimation = false
+
     private val adapter by lazy {
         BuffAdapter(object : OnAnswerSelected {
-            override fun invoke(uiModel: BuffUiModel) {
-            }
-        }, object : OnCloseSelected {
-            override fun invoke() {
+            override fun invoke(uiModel: BuffUiModel.Answer) {
+                val highlightedAnswer = uiModel.copy(shouldAnimateOverlay = true)
+                val newList =
+                    _answers.value?.replace(newValue = highlightedAnswer) { it.id == highlightedAnswer.id }
+                newList?.let {
+                    _answers.value = it
+                    with(binding.rvQuestions) {
+                        isClickable = false
+                        isEnabled = false
+                    }
+                    timer.cancel()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        handleRightToLeftAnimation()
+                    }, ITEM_TAP_DELAY)
+                }
             }
         })
     }
@@ -51,7 +67,6 @@ class BuffView @JvmOverloads constructor(
         addView(binding.root)
         with(binding) {
             rvQuestions.adapter = adapter
-            //  container.invalidate()
 
             buffSender.buffClose.setOnClickListener {
                 timer.cancel()
@@ -67,6 +82,10 @@ class BuffView @JvmOverloads constructor(
         question.observeForever {
             binding.buffQuestion.questionText.text = it.text
         }
+
+        answers.observeForever {
+            adapter.submitList(it.toMutableList())
+        }
     }
 
     fun setData(uiModel: List<BuffUiModel>) {
@@ -75,19 +94,18 @@ class BuffView @JvmOverloads constructor(
         val question = uiModel.filterIsInstance(BuffUiModel.Question::class.java).first()
         _author.value = author
         _question.value = question
-        adapter.submitList(answers.toMutableList())
+        _answers.value = answers
 
         handleLeftToRightAnimation()
     }
 
     fun setTime(timeToShow: Long) {
-        this.timeToShow = timeToShow * 1000
+        this.timeToShow = (timeToShow * 1000) + 1000
     }
 
     private fun setProgressBar() {
-        timer = object : CountDownTimer(15000, 1000) {
+        timer = object : CountDownTimer(timeToShow, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                print("TimeToShow is $timeToShow")
                 val progress = timeToShow - (millisUntilFinished / 1000)
                 with(binding.buffQuestion) {
                     val seconds: Long = millisUntilFinished / 1000
@@ -97,20 +115,27 @@ class BuffView @JvmOverloads constructor(
             }
 
             override fun onFinish() {
+                timeToShow = 0
+                question_time.text = 0.toString()
+                this.cancel()
                 handleRightToLeftAnimation()
-                timer.cancel()
             }
         }.start()
     }
 
     private fun handleLeftToRightAnimation() {
+        isLeftToRightAnimation = true
         with(binding) {
+            rvQuestions.isClickable = true
+            rvQuestions.isEnabled = true
             container.animate().setListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(p0: Animator?) {
                 }
 
                 override fun onAnimationEnd(p0: Animator?) {
-                    setProgressBar()
+                    if (isLeftToRightAnimation) {
+                        setProgressBar()
+                    }
                 }
 
                 override fun onAnimationCancel(p0: Animator?) {
@@ -125,6 +150,7 @@ class BuffView @JvmOverloads constructor(
     }
 
     private fun handleRightToLeftAnimation() {
+        isLeftToRightAnimation = false
         binding.container.animate().translationX(-binding.container.width.toFloat())
             .setInterpolator(AccelerateDecelerateInterpolator()).duration = ANIM_DURATION
     }

@@ -9,6 +9,7 @@
     <color name="background">#fff3f3f3</color>
     <color name="dark_overlay">#BE1B1E1E</color>
     <color name="light_overlay">#A6FFFFFF</color>
+    <color name="selected_overlay_color">#2681f4</color>
     <color name="test_color_dark">#31323A</color>
     <color name="test_color_light">#FFFFFF</color>
 </resources>

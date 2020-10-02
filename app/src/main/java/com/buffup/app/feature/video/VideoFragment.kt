@@ -41,7 +41,8 @@ class VideoFragment :
                             val answers = action.response.videos.answer.map {
                                 BuffUiModel.Answer(
                                     id = it.id,
-                                    text = it.title
+                                    text = it.title,
+                                    shouldAnimateOverlay = false
                                 )
                             }
                             val question = BuffUiModel.Question(
