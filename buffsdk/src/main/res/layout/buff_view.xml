@@ -56,14 +56,9 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guide_end"
+            tools:layout="@layout/buff_sender"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guide_start" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/content_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="rv_questions,buff_question,buff_sender" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

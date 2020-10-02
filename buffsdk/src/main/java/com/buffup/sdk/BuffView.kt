@@ -7,7 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.View
+import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.buff_question.view.*
 
 private const val ANIM_DURATION = 1000L
 private const val ITEM_TAP_DELAY = 2000L
+
 class BuffView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
@@ -42,22 +44,23 @@ class BuffView @JvmOverloads constructor(
 
     private var isLeftToRightAnimation = false
 
+    private var isRecyclerViewTouchEnabled = true
+
     private val adapter by lazy {
         BuffAdapter(object : OnAnswerSelected {
             override fun invoke(uiModel: BuffUiModel.Answer) {
-                val highlightedAnswer = uiModel.copy(shouldAnimateOverlay = true)
-                val newList =
-                    _answers.value?.replace(newValue = highlightedAnswer) { it.id == highlightedAnswer.id }
-                newList?.let {
-                    _answers.value = it
-                    with(binding.rvQuestions) {
-                        isClickable = false
-                        isEnabled = false
+                if (isRecyclerViewTouchEnabled) {
+                    isRecyclerViewTouchEnabled = false
+                    val highlightedAnswer = uiModel.copy(shouldAnimateOverlay = true)
+                    val newList =
+                        _answers.value?.replace(newValue = highlightedAnswer) { it.id == highlightedAnswer.id }
+                    newList?.let {
+                        _answers.value = it
+                        timer.cancel()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            handleRightToLeftAnimation()
+                        }, ITEM_TAP_DELAY)
                     }
-                    timer.cancel()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        handleRightToLeftAnimation()
-                    }, ITEM_TAP_DELAY)
                 }
             }
         })
@@ -125,9 +128,8 @@ class BuffView @JvmOverloads constructor(
 
     private fun handleLeftToRightAnimation() {
         isLeftToRightAnimation = true
+        isRecyclerViewTouchEnabled = true
         with(binding) {
-            rvQuestions.isClickable = true
-            rvQuestions.isEnabled = true
             container.animate().setListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(p0: Animator?) {
                 }
@@ -145,13 +147,13 @@ class BuffView @JvmOverloads constructor(
                 }
 
             }).translationX(0f)
-                .setInterpolator(AccelerateDecelerateInterpolator()).duration = ANIM_DURATION
+                .setInterpolator(AccelerateInterpolator()).duration = ANIM_DURATION
         }
     }
 
     private fun handleRightToLeftAnimation() {
         isLeftToRightAnimation = false
         binding.container.animate().translationX(-binding.container.width.toFloat())
-            .setInterpolator(AccelerateDecelerateInterpolator()).duration = ANIM_DURATION
+            .setInterpolator(AccelerateInterpolator()).duration = ANIM_DURATION
     }
 }
