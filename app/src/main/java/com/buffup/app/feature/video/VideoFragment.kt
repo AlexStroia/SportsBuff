@@ -42,7 +42,8 @@ class VideoFragment :
                                 BuffUiModel.Answer(
                                     id = it.id,
                                     text = it.title,
-                                    shouldAnimateOverlay = false
+                                    shouldAnimateOverlay = false,
+                                    image = it.images.content0.url
                                 )
                             }
                             val question = BuffUiModel.Question(

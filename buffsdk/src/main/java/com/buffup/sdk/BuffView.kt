@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.buff_question.view.*
 private const val ANIM_DURATION = 1000L
 private const val ITEM_TAP_DELAY = 2000L
 
+private const val TIMER_INTERVAL = 1000L
+
 class BuffView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
@@ -107,11 +109,17 @@ class BuffView @JvmOverloads constructor(
     }
 
     private fun setProgressBar() {
-        timer = object : CountDownTimer(timeToShow, 1000) {
+        binding.buffQuestion.questionTimeProgress.max = (timeToShow / TIMER_INTERVAL).toInt()
+        with(binding.buffQuestion.questionTimeProgress) {
+            this.max = (timeToShow / TIMER_INTERVAL).toInt()
+            this.progress = 0
+        }
+        timer = object : CountDownTimer(timeToShow, TIMER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
-                val progress = timeToShow - (millisUntilFinished / 1000)
+                val progress =
+                    (timeToShow / TIMER_INTERVAL) - (millisUntilFinished / TIMER_INTERVAL)
                 with(binding.buffQuestion) {
-                    val seconds: Long = millisUntilFinished / 1000
+                    val seconds: Long = millisUntilFinished / TIMER_INTERVAL
                     questionTime.text = (seconds).toString()
                     binding.buffQuestion.questionTimeProgress.progress = (progress.toInt())
                 }

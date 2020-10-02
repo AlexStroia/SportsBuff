@@ -25,15 +25,13 @@ class VideoFragmentViewModel(
     private val _event = MutableLiveData<Event<Action>>()
     val event: LiveData<Event<Action>> get() = _event
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
-
     private lateinit var timer: CountDownTimer
 
     init {
         var currentId = 0
         timer =
-            object : CountDownTimer(MILLISECONDS_REQUEST_DELAY_TIME, MILLISECONDS_COUNTDOWN_INTERVAL) {
+            object :
+                CountDownTimer(MILLISECONDS_REQUEST_DELAY_TIME, MILLISECONDS_COUNTDOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                 }
 
@@ -54,19 +52,11 @@ class VideoFragmentViewModel(
     }
 
     private suspend fun handleFetchVideoUseCase(id: Int) {
-        _loading.value = true
         when (val result = fetchVideosUseCase(id)) {
-            is Result.Success -> {
-                _loading.value = false
-                _event.value = Event(Action.Success(result.value))
-            }
-            is Result.Error -> {
-                _loading.value = false
-                _event.value = Event(Action.Error(result.exception.asError()))
-            }
+            is Result.Success -> _event.value = Event(Action.Success(result.value))
+            is Result.Error -> _event.value = Event(Action.Error(result.exception.asError()))
         }
     }
-
 
     sealed class Action {
         data class Error(val error: SportsBuffError) : Action()
