@@ -76,4 +76,4 @@ Install [Android SDK](https://developer.android.com/studio/)
 
 Alexandru Stroia- [@ssalex](https://twitter.com/ssalex_) - salexandru995@gmail.com
 
-Project Link: [https://github.com/AlexStroia](https://github.com/AlexStroia/SportsBuff/)
+Project Link: [https://github.com/AlexStroia/SportsBuff](https://github.com/AlexStroia/SportsBuff/)
