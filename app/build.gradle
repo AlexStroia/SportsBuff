@@ -98,9 +98,8 @@ dependencies {
 
     annotationProcessor 'com.android.databinding:compiler:3.1.4'
 
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //Coil
+    implementation("io.coil-kt:coil:1.0.0-rc3")
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

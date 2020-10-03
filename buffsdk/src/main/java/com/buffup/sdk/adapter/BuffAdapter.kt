@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.buffup.sdk.BuffAnswerUiBinding
 import com.buffup.sdk.model.AnswerUiModel
 import com.buffup.sdk.shared.DataBoundListAdapter
+import com.buffup.sdk.shared.DataBoundViewHolder
+import com.buffup.sdk.utils.setImage
 
 typealias OnAnswerSelected = (uiModel: AnswerUiModel) -> Unit
 
@@ -17,7 +19,7 @@ class BuffAdapter(
             oldItem: AnswerUiModel,
             newItem: AnswerUiModel
         ): Boolean {
-            return oldItem.text == newItem.text
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
@@ -25,6 +27,14 @@ class BuffAdapter(
             newItem: AnswerUiModel
         ): Boolean {
             return oldItem == newItem
+        }
+    }
+
+    override fun onBindingViewHolderCreated(holder: DataBoundViewHolder<BuffAnswerUiBinding>) {
+        with(holder.binding) {
+            if(holder.adapterPosition != -1) {
+                this.image.setImage(getItem(holder.adapterPosition).image)
+            }
         }
     }
 
@@ -38,7 +48,9 @@ class BuffAdapter(
     override fun bind(binding: BuffAnswerUiBinding, item: AnswerUiModel, position: Int) {
         with(binding) {
             uiModel = item
-            root.setOnClickListener { onAnswerSelected(item) }
+            root.setOnClickListener {
+                onAnswerSelected(item)
+            }
         }
     }
 }
