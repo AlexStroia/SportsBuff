@@ -30,16 +30,14 @@
 An android application written in Kotlin and an accompanying SDK writen in Kotlin
 <br/>
 Demonstration of coding style and design patterns.
+<br/>
 Usage of common android libraries.
+<br/>
 Error handling.
-Unit testing
+<br/>
+Unit testing.
+<br/>
 The application runs on Android 5.0 and above.
-
-An Android application, written in Kotlin and accompanying SDK writen in Kotlin. 
-Demonstration of best-practices and design patterns.
-Error handling.
-Multiple Android libraries.
-Minimum SDK Version Api level 21.
 
 ### Built With
 * [Android Studio](https://developer.android.com/studio/)
