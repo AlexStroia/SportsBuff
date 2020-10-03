@@ -28,10 +28,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 An android application written in Kotlin and an accompanying SDK writen in Kotlin
+<br/>
 Demonstration of coding style and design patterns.
-Knowledge of common android libraries and any others that you find useful.
+Usage of common android libraries.
 Error handling.
-Any form of unit or integration testing you see fit.
+Unit testing
 The application runs on Android 5.0 and above.
 
 An Android application, written in Kotlin and accompanying SDK writen in Kotlin. 
