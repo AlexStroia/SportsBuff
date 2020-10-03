@@ -27,7 +27,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-An android application written in Kotlin and an accompanying SDK writen in Kotlin
+An android application written in Kotlin and an accompanying SDK writen in Kotlin.
 <br/>
 Demonstration of coding style and design patterns.
 <br/>
