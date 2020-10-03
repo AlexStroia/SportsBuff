@@ -17,10 +17,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import com.buffup.sdk.model.BuffUiModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-
 
 typealias OnSnackbarDismissed = (dismissEvent: Int) -> Unit
 

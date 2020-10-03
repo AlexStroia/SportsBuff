@@ -5,7 +5,7 @@
 
         <variable
             name="uiModel"
-            type="com.buffup.sdk.model.BuffUiModel.Answer" />
+            type="com.buffup.sdk.model.AnswerUiModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

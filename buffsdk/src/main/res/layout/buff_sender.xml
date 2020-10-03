@@ -4,7 +4,7 @@
     <data class=".BuffSenderUiBinding">
         <variable
             name="uiModel"
-            type="com.buffup.sdk.model.BuffUiModel.Author" />
+            type="com.buffup.sdk.model.AuthorUiModel" />
     </data>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

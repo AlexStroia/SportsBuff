@@ -7,7 +7,7 @@
 
         <variable
             name="uiModel"
-            type="com.buffup.sdk.model.BuffUiModel.Question" />
+            type="com.buffup.sdk.model.QuestionUiModel" />
     </data>
 
     <LinearLayout

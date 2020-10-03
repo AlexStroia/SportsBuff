@@ -7,14 +7,15 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.buffup.sdk.adapter.BuffAdapter
 import com.buffup.sdk.adapter.OnAnswerSelected
-import com.buffup.sdk.model.BuffUiModel
+import com.buffup.sdk.model.AnswerUiModel
+import com.buffup.sdk.model.AuthorUiModel
+import com.buffup.sdk.model.QuestionUiModel
 import com.buffup.sdk.utils.replace
 import com.buffup.sdk.utils.setImage
 import kotlinx.android.synthetic.main.buff_question.view.*
@@ -31,14 +32,14 @@ class BuffView @JvmOverloads constructor(
 
     private var binding: BuffViewBinding = BuffViewBinding.inflate(LayoutInflater.from(context))
 
-    private val _question = MutableLiveData<BuffUiModel.Question>()
-    val question: LiveData<BuffUiModel.Question> get() = _question
+    private val _question = MutableLiveData<QuestionUiModel>()
+    val question: LiveData<QuestionUiModel> get() = _question
 
-    private val _author = MutableLiveData<BuffUiModel.Author>()
-    val author: LiveData<BuffUiModel.Author> get() = _author
+    private val _author = MutableLiveData<AuthorUiModel>()
+    val author: LiveData<AuthorUiModel> get() = _author
 
-    private val _answers = MutableLiveData<List<BuffUiModel.Answer>>()
-    val answers: LiveData<List<BuffUiModel.Answer>> get() = _answers
+    private val _answers = MutableLiveData<List<AnswerUiModel>>()
+    val answers: LiveData<List<AnswerUiModel>> get() = _answers
 
     private lateinit var timer: CountDownTimer
 
@@ -50,7 +51,7 @@ class BuffView @JvmOverloads constructor(
 
     private val adapter by lazy {
         BuffAdapter(object : OnAnswerSelected {
-            override fun invoke(uiModel: BuffUiModel.Answer) {
+            override fun invoke(uiModel: AnswerUiModel) {
                 if (isRecyclerViewTouchEnabled) {
                     isRecyclerViewTouchEnabled = false
                     val highlightedAnswer = uiModel.copy(shouldAnimateOverlay = true)
@@ -89,11 +90,11 @@ class BuffView @JvmOverloads constructor(
         }
 
         answers.observeForever {
-            adapter.submitList(it.toMutableList())
+            adapter.submitList(it)
         }
     }
 
-    fun setData(answers: List<BuffUiModel.Answer>, question: BuffUiModel.Question, author: BuffUiModel.Author) {
+    fun setData(answers: List<AnswerUiModel>, question: QuestionUiModel, author: AuthorUiModel) {
         _author.value = author
         _question.value = question
         _answers.value = answers

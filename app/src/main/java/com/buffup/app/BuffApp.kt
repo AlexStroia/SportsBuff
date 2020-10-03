@@ -15,7 +15,7 @@ class BuffApp : Application() {
         super.onCreate()
 
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.ERROR)
             androidContext(this@BuffApp)
             modules(createCoreModules(BuildConfig.BASE_URL) + createFeatureModule())
         }
